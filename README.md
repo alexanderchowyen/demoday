@@ -1,3 +1,4 @@
+An app based around health and ways to access a healtheir life style.
 ## Installation
 
 1. Clone repo
