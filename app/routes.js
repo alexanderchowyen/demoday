@@ -25,14 +25,24 @@ module.exports = function(app, passport, db) {
     });
 
 // message board routes ===============================================================
+// app.get('https://api.edamam.com/search', isLoggedIn, function(req, res) {
+//   db.collection('posts').find().toArray((err, result) => {
+//     if (err) return console.log(err)
+//     res.render('index.ejs', {
+//       user : req.user,
+//       posts: result
+//     })
+//   })
+// });
 
-    app.post('/messages', (req, res) => {
-      db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
-        if (err) return console.log(err)
-        console.log('saved to database')
-        res.redirect('/profile')
-      })
-    })
+
+app.post('/messages', (req, res) => {
+  db.collection('messages').save({name: req.body.name, msg: req.body.msg, thumbUp: 0, thumbDown:0}, (err, result) => {
+    if (err) return console.log(err)
+    console.log('saved to database')
+    res.redirect('/profile')
+  })
+})
 
     app.put('/messages', (req, res) => {
       db.collection('messages')
