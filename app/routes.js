@@ -34,6 +34,11 @@ module.exports = function(app, passport, db) {
 //     })
 //   })
 // });
+// recipe-  key: f85d1a2472b0f4835ada53850740ab5f	—   id: 1e77532d
+// anaylsis- key: 77fa76cd15e1911cfda979e6b134e224	—id:542df651
+//https://api.edamam.com/api/recipes/v2?api_key=f85d1a2472b0f4835ada53850740ab5f&api_id=1e77532d&q=beef didnt work
+//this works https://api.edamam.com/search?q=${search}&ingr=10&time=30&app_id=1e77532d&app_key=f85d1a2472b0f4835ada53850740ab5f
+
 
 
 app.post('/messages', (req, res) => {
