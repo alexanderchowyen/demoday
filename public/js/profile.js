@@ -58,77 +58,16 @@
 //       window.location.reload()
 //     })
 //   });
-// });
+// // });
 
-var trash = document.getElementsByClassName("fa-trash")
+// var ban = document.getElementsByClassName("fa-ban")
 
 let recipeList = document.querySelector('tbody') 
-
-const recipeSearchs = document.querySelector(".search")
-
-const sInput = document.querySelector("input")
-
-recipeSearchs.addEventListener('click', function(){ 
-  console.log('button action')
-  var search = sInput.value 
-  const url = `https://api.edamam.com/search?q=${search}&ingr=10&time=30&app_id=1e77532d&app_key=f85d1a2472b0f4835ada53850740ab5f`
-fetch(url)
-.then(res => res.json())
-.then(data => {
-  console.log("fetching data")
-  console.log(data);
-  recipeList.innerHTML = ""
-  data.hits.forEach(currentRecipe => {
-    let recipe = currentRecipe.recipe
-    recipeList.innerHTML+= `
-<tr>
-  <td> <img src= "${recipe.image}"></td>
-  <th scope="row">${recipe.label}</th>
-  <td>${recipe.calories}</td>
-  <td>${recipe.ingredientLines}</td>
-  <td>${recipe.mealType}</td>
-  <td>${recipe.cuisineType}</td>
-  <td><i class = "fa fa-star"> </i></td>
-</tr>`
-});  
-})
-})
-recipeList.addEventListener('click', function(event){
-  if (event.target.classList.contains("fa-star")){
-    console.log("clicking on star")
-    event.target.classList.toggle("yellow-star")
-    let row = event.target.parentNode.parentNode
-    let image = row.children[0].children[0].src
-    console.log(image.innerHTML)
-    let label = row.children[1].innerHTML
-    let calories =row.children[2].innerHTML
-    let ingredients = row.children[3].innerHTML
-    let meal = row.children[4].innerHTML
-    let cuisine =row.children[5].innerHTML
-    let inputData = {
-      label, image, calories, ingredients, meal, cuisine
-    }
-    console.log(inputData)
-    fetch("addRecipe",{
-      "method": "POST",
-      "headers" : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       },
-      "body": JSON.stringify(inputData)
-    }).then(data =>{
-      console.log(data)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-})
 
 recipeList.addEventListener('click', function(event){
   if (event.target.classList.contains("fa-ban")){
     // const id = this.event.target.parentNode.parentNode
-    const id = 
+    const id = event.target.parentNode.parentNode.children[0].innerHTML
     console.log("clicking on ban")
     fetch('removeRecipe', {
       method: 'delete',
@@ -136,7 +75,7 @@ recipeList.addEventListener('click', function(event){
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-       "id": id,
+        id,
       })
     }).then(function (response) {
       window.location.reload()
@@ -144,8 +83,19 @@ recipeList.addEventListener('click', function(event){
   };
 });
 
-function sendEmail(){
-  let ingredients
-window.open(`mailto:${req.user.local.email}?subject=TreatYourSelfRecipe-${ingredients}`)
+recipeList.addEventListener('click', function(event){
+  if (event.target.classList.contains("fa-envelope")){
+    // const id = this.event.target.parentNode.parentNode
+    const row = event.target.parentNode.parentNode
+    const label = row.children[1].innerHTML
+    const ingredients = row.children[3].innerHTML
+    sendEmail()
+    
+
+  };
+});
+
+function sendEmail(label,ingredients){
+window.open(`mailto:someonesEmail?subject=TreatYourSelfRecipe-${label}&body=${ingredients}`)
 }
 

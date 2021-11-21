@@ -2,9 +2,14 @@
 <html>
 <head>
     <title>Health Is Wealth</title>
+    <link rel="stylesheet" href="../public/style.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../public/style.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.7.1/slick-theme.css" />
+     <script src="https://unpkg.com/scrollreveal@4.0.0-beta.6"></script>
 </head>
 <body>
 <div class="container">
@@ -12,57 +17,54 @@
     <div class="page-header text-center">
         <h1></span> Profile Page</h1>
         <a href="/logout" class="btn btn-default btn-sm">Logout</a>
+        <a href="/recipes" >Search Recipes</a>
     </div>
 
     <div class="row">
 
         <!-- LOCAL INFORMATION -->
+
         <div class="col-sm-6">
-            <div class="well">
-                <h3><span class="fa fa-user"></span> Local</h3>
-
-                <% if (user.local.email) { %>
-                    <p>
-                        <strong>id</strong>: <%= user._id %><br>
-                        <strong>email</strong>: <%= user.local.email %><br>
-                        <strong>password</strong>: <%= user.local.password %>
-                    </p>
-
-                    <a href="/unlink/local" class="btn btn-default">Unlink</a>
-                <% } else { %>
-                    <a href="/connect/local" class="btn btn-default">Connect Local</a>
-                <% } %>
-
-            </div>
-        </div>
-        <div class="col-sm-6">
-          <h3>Messages</h3>
-          <ul class="messages">
+          <h2>Recipes</h3>
+            <table class="table table-striped table-dark">
+              <thead>
+                <tr>
+                  <th scope="col">Image</th>
+                  <th scope="col">Recipe Name</th>
+                  <th scope="col">calories</th>
+                  <th scope="col">ingredients</th>
+                  <th scope="col">meal type</th>
+                  <th scope="col">cuisine type</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Delete</th>
+                </tr>
+              </thead>
+              <tbody>
           <% for(var i=0; i<messages.length; i++) {%>
-            <li class="message">
-              <span><%= messages[i].name %></span>
-              <span><%= messages[i].msg %></span>
-              <span><%= messages[i].thumbUp %></span>
-              <span><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>
-              <span><i class="fa fa-thumbs-down" aria-hidden="true"></i></span>
-              <span><i class="fa fa-trash" aria-hidden="true"></i></span>
-            </li>
+            
+          <tr>
+            <td hidden><%= messages[i]._id %></td>
+            <td><img src=<%= messages[i].image %>></td>
+            <th scope="row"><%= messages[i].label %></th>
+            <td><%= messages[i].calories %></td>
+            <td><%= messages[i].ingredients %></td>
+            <td><%= messages[i].meal %></td>
+            <td><%= messages[i].cuisine %></td>
+            <td><i class ="fa fa-envelope"></i></td>
+            <td><i class ="fa fa-ban"></i></td>
+          </tr>
           <% } %>
-          </ul>
-
-          <h2>Add a message</h2>
+          
+        </tbody>
+      </table>
+          
         <% if (user.local.email) { %>
-          <form action="/messages" method="POST">
-            <input type="text" value="<%= user.local.email %>" name="name">
-            <input type="text" placeholder="message" name="msg">
-            <button type="submit">Submit</button>
-          </form>
         </div>
         <% } %> 
 
 </div>
 
-<script src="main.js"></script>
+<script type="text/javascript" src="/js/profile.js"></script>
 
 </body>
 </html>
