@@ -25,15 +25,24 @@ module.exports = function(app, passport, db) {
     });
 
 // message board routes ===============================================================
-// app.get('https://api.edamam.com/search', isLoggedIn, function(req, res) {
-//   db.collection('posts').find().toArray((err, result) => {
-//     if (err) return console.log(err)
-//     res.render('index.ejs', {
-//       user : req.user,
-//       posts: result
-//     })
-//   })
-// });
+app.get('https://api.edamam.com/search', isLoggedIn, function(req, res) {
+  db.collection('posts').find().toArray((err, result) => {
+    if (err) return console.log(err)
+    res.render('index.ejs', {
+      user : req.user,
+      posts: result
+    })
+  })
+});
+app.get('/recipes', isLoggedIn, function(req, res) {
+  db.collection('posts').find().toArray((err, result) => {
+    if (err) return console.log(err)
+    res.render('recipes.ejs', {
+      user : req.user,
+      posts: result
+    })
+  })
+});
 // recipe-  key: f85d1a2472b0f4835ada53850740ab5f	—   id: 1e77532d
 // anaylsis- key: 77fa76cd15e1911cfda979e6b134e224	—id:542df651
 //https://api.edamam.com/api/recipes/v2?api_key=f85d1a2472b0f4835ada53850740ab5f&api_id=1e77532d&q=beef didnt work
