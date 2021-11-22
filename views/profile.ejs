@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>Health Is Wealth</title>
-    <link rel="stylesheet" href="../public/style.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="style.css">
@@ -45,18 +44,18 @@
           <% for(var i=0; i<messages.length; i++) {%>
             
           <tr>
-            <td hidden><%= messages[i]._id %></td>
             <td><img src=<%= messages[i].image %>></td>
             <th scope="row"><%= messages[i].label %></th>
-            <td><%= messages[i].calories %></td>
+            <td><%= messages[i].calories.split(".")[0] %></td>
             <td><%= messages[i].ingredients %></td>
             <td><%= messages[i].meal %></td>
             <td><%= messages[i].cuisine %></td>
             <td><i class ="fa fa-shopping-cart"></i></td>
             <td><i class ="fa fa-apple"></i></td>
             <td><i class ="fa fa-envelope"></i></td>
-            <td><i class ="fa fa-ban"></i></td>
-          </tr>
+            <td><i class ="fa fa-ban"></i></td> 
+            <td hidden><%= messages[i]._id %></td>
+	  </tr>
           <% } %>
           
         </tbody>
@@ -70,6 +69,7 @@
 
 
 <script type="text/javascript" src="/js/profile.js"></script>
+    <!--.menu-cart-->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
