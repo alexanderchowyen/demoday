@@ -85,7 +85,7 @@ fetch(url)
   <td> <img src= "${recipe.image}"></td>
   <th scope="row">${recipe.label}</th>
   <td>${recipe.calories}</td>
-  <td>${recipe.ingredientLines}</td>
+  <td>${recipe.ingredientLines.join(". ")}</td>
   <td>${recipe.mealType}</td>
   <td>${recipe.cuisineType}</td>
   <td><i class = "fa fa-star"> </i></td>

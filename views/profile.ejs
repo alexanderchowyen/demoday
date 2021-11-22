@@ -31,10 +31,12 @@
                 <tr>
                   <th scope="col">Image</th>
                   <th scope="col">Recipe Name</th>
-                  <th scope="col">calories</th>
-                  <th scope="col">ingredients</th>
-                  <th scope="col">meal type</th>
-                  <th scope="col">cuisine type</th>
+                  <th scope="col">Calories</th>
+                  <th scope="col">Ingredients</th>
+                  <th scope="col">Meal type</th>
+                  <th scope="col">Cuisine</th>
+                  <th scope="col">Shop</th>
+                  <th scope="col">Nutrition</th>
                   <th scope="col">Email</th>
                   <th scope="col">Delete</th>
                 </tr>
@@ -50,6 +52,8 @@
             <td><%= messages[i].ingredients %></td>
             <td><%= messages[i].meal %></td>
             <td><%= messages[i].cuisine %></td>
+            <td><i class ="fa fa-shopping-cart"></i></td>
+            <td><i class ="fa fa-apple"></i></td>
             <td><i class ="fa fa-envelope"></i></td>
             <td><i class ="fa fa-ban"></i></td>
           </tr>
@@ -64,7 +68,10 @@
 
 </div>
 
-<script type="text/javascript" src="/js/profile.js"></script>
 
+<script type="text/javascript" src="/js/profile.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
