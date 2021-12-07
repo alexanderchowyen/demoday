@@ -15,7 +15,7 @@ module.exports = function(app, passport, db) {
           if (err) return console.log(err)
           res.render('profile.ejs', {
             user : req.user,
-            messages: result
+            posts: result
           })
         })
     });
@@ -41,8 +41,7 @@ app.get('/recipes', isLoggedIn, function(req, res) {
   db.collection('posts').find().toArray((err, result) => {
     if (err) return console.log(err)
     res.render('recipes.ejs', {
-      user : req.user,
-      posts: result
+      user : req.user
     })
   })
 });
@@ -68,21 +67,6 @@ app.post('/addRecipe', (req, res) => {
     res.send("saved")
   })
 })
-
-    // app.put('/messages', (req, res) => {
-    //   db.collection('messages')
-    //   .findOneAndUpdate({name: req.body.name, msg: req.body.msg}, {
-    //     $set: {
-    //       thumbUp:req.body.thumbUp + 1
-    //     }
-    //   }, {
-    //     sort: {_id: -1},
-    //     upsert: true
-    //   }, (err, result) => {
-    //     if (err) return res.send(err)
-    //     res.send(result)
-    //   })
-    // })
 
     app.delete('/removeRecipe', (req, res) => {
       const ObjectID = require('mongodb').ObjectId

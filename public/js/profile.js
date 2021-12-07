@@ -1,12 +1,20 @@
-// var ban = document.getElementsByClassName("fa-ban")
 
-let recipeList = document.querySelector('tbody') 
+            //--====================.Constants===========================--//
+            //--====================.Constants===========================--//
+            //--====================.Constants===========================--//
+let recipeList = document.querySelector('#Menu')
+let popUpLabel = document.querySelector('#exampleModalLabel')
+let popUpBody = document.querySelector('#exampleModalBody')
 
+
+            //--====================.Delete Button===========================--//
+            //--====================.Delete Button===========================--//
+            //--====================.Delete Button===========================--//
 recipeList.addEventListener('click', function(event){
   if (event.target.classList.contains("fa-ban")){
     // const id = this.event.target.parentNode.parentNode
-    const row = event.target.parentNode.parentNode.children
-    const id = row[row.length].innerHTML
+    const trashCan = event.target
+    const id = trashCan.dataset.id
     console.log("clicking on ban")
     fetch('removeRecipe', {
       method: 'delete',
@@ -17,25 +25,33 @@ recipeList.addEventListener('click', function(event){
         id,
       })
     }).then(function (response) {
+      console.log(response)
       window.location.reload()
     })
   };
 });
 
+
+            //--====================.Email Button===========================--//
+            //--====================.Email Button===========================--//
+            //--====================.Email Button===========================--//
 recipeList.addEventListener('click', function(event){
   if (event.target.classList.contains("fa-envelope")){
     // const id = this.event.target.parentNode.parentNode
-    const row = event.target.parentNode.parentNode
-    const label = row.children[1].innerHTML
-    const ingredients = row.children[3].innerHTML
+    let envelope = event.target
+    const label = envelope.dataset.label
+    const ingredients = envelope.dataset.ingredients
     sendEmail(label,ingredients)
   };
 });
 
+            //--====================.Nutrition Button===========================--//
+            //--====================.Nutrition Button===========================--//
+            //--====================.Nutrition Button===========================--//
 recipeList.addEventListener('click', function(event){
   if (event.target.classList.contains("fa-apple")){
-    const row = event.target.parentNode.parentNode
-    const ingredients = row.children[3].innerHTML.split(". ").join("+")
+    let apple = event.target
+    const ingredients = apple.dataset.ingredients.split(". ").join("+")
     console.log(ingredients)
     let url = `https://api.edamam.com/api/nutrition-data?app_id=542df651&app_key=77fa76cd15e1911cfda979e6b134e224&nutrition-type=cooking&ingr=${ingredients}`
     fetch(url).then(res=>res.json())
@@ -48,23 +64,35 @@ recipeList.addEventListener('click', function(event){
 		    nutrientList.push(currentNutrients)
 		    nutrientString+=`${currentNutrients.label} ${currentNutrients.quantity}${currentNutrients.unit}\n`
 	    })
-	    alert(nutrientString)
+
+      popUpLabel.innerHTML = "Nutrients"
+      popUpBody.innerHTML = nutrientString
     })
   };
 });
 
+
+            //--====================.Farmers Markets Button===========================--//
+            //--====================.Farmers Markets Button===========================--//
+            //--====================.Farmers Markets Button===========================--//
 recipeList.addEventListener('click', function(event){
   if (event.target.classList.contains("fa-shopping-cart")){
+
+  popUpLabel.innerHTML = "Loading Farmers Markets"
+  popUpBody.innerHTML = "..."
     console.log("shopping")
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success)
+      navigator.geolocation.getCurrentPosition(getFarmersMarkets)
     } else {
         console.log("Geolocation is not supported by this browser.")
     }
   };
 });
 
-function success(pos) {
+            //--====================.Get Market Locations===========================--//
+            //--====================.Get Market Locations===========================--//
+            //--====================.Get Market Locations===========================--//
+function getFarmersMarkets(pos) {
   let locales = `${pos.coords.longitude},${pos.coords.latitude}`
   fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${locales}.json?access_token=pk.eyJ1IjoieHNoYXduY3giLCJhIjoiY2tlams1YTNnMDZ3MDJycXNsNGlxbzJlYyJ9.yhpBv07FJ2TZfJW62fs7sA`)
           .then(response => response.json())
@@ -77,13 +105,18 @@ function success(pos) {
               console.log(data)
               let markets = data.results.reduce((a,b)=>a+b.marketname+"\n","")
               console.log(markets)
-              alert(markets)
+
+              popUpLabel.innerHTML = "Farmers Markets Near You"
+              popUpBody.innerHTML = markets
             })
           })
           .catch(err => console.log(err))
 }
 
+            //--====================.Send Email===========================--//
+            //--====================.Send Email===========================--//
+            //--====================.Send Email===========================--//
 function sendEmail(label,ingredients){
-window.open(`mailto:someonesEmail?subject=TreatYourSelfRecipe-${label}&body=${ingredients}`)
+let email = document.querySelector("#email").innerHTML
+window.open(`mailto:${email}?subject=TreatYourSelfRecipe-${label}&body=${ingredients}`)
 }
-

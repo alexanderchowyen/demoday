@@ -1,151 +1,176 @@
-// var thumbUp = document.getElementsByClassName("fa-thumbs-up");
-// var trash = document.getElementsByClassName("fa-trash");
-// console.log('hello im here and linked')
-// Array.from(thumbUp).forEach(function(element) {
-//       element.addEventListener('click', function(){
-//         const name = this.parentNode.parentNode.childNodes[1].innerText
-//         const msg = this.parentNode.parentNode.childNodes[3].innerText
-//         const thumbUp = parseFloat(this.parentNode.parentNode.childNodes[5].innerText)
-//         fetch('messages', {
-//           method: 'put',
-//           headers: {'Content-Type': 'application/json'},
-//           body: JSON.stringify({
-//             'name': name,
-//             'msg': msg,
-//             'thumbUp':thumbUp
-//           })
-//         })
-//         .then(response => {
-//           if (response.ok) return response.json()
-//         })
-//         .then(data => {
-//           console.log(data)
-//           window.location.reload(true)
-//         })
-//       });
-// });
 
-// Array.from(trash).forEach(function(element) {
-//       element.addEventListener('click', function(){
-//         fetch('messages', {
-//           method: 'delete',
-//           headers: {
-//             'Content-Type': 'application/json'
-//           },
-//           body: JSON.stringify({
-//             'name': name,
-//             'msg': msg
-//           })
-//         }).then(function (response) {
-//         })
-//       });
-// });
-
-// Array.from(trash).forEach(function(element) {
-//   element.addEventListener('click', function(){
-//     const name = this.parentNode.parentNode.childNodes[1].innerText
-//     const msg = this.parentNode.parentNode.childNodes[3].innerText
-//     fetch('messages', {
-//       method: 'delete',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         'name': name,
-//         'msg': msg
-//       })
-//     }).then(function (response) {
-//       window.location.reload()
-//     })
-//   });
-// });
-
-var trash = document.getElementsByClassName("fa-trash")
-
-let recipeList = document.querySelector('tbody') 
-
+            //--====================.Constants===========================--//
+            //--====================.Constants===========================--//
+            //--====================.Constants===========================--//
 const recipeSearchs = document.querySelector(".search")
+const searchInput = document.querySelector("input")
+let menuData = []
 
-const sInput = document.querySelector("input")
 
-recipeSearchs.addEventListener('click', function(){ 
-  console.log('button action')
-  var search = sInput.value 
-  const url = `https://api.edamam.com/search?q=${search}&ingr=10&time=30&app_id=1e77532d&app_key=f85d1a2472b0f4835ada53850740ab5f`
-fetch(url)
-.then(res => res.json())
-.then(data => {
-  console.log("fetching data")
-  console.log(data);
-  recipeList.innerHTML = ""
-  data.hits.forEach(currentRecipe => {
-    let recipe = currentRecipe.recipe
-    recipeList.innerHTML+= `
-<tr>
-  <td> <img src= "${recipe.image}"></td>
-  <th scope="row">${recipe.label}</th>
-  <td>${recipe.calories.splt(".")[0]}</td>
-  <td>${recipe.ingredientLines.join(". ")}</td>
-  <td>${recipe.mealType}</td>
-  <td>${recipe.cuisineType}</td>
-  <td><i class = "fa fa-star"> </i></td>
-</tr>`
-});  
-})
-})
-recipeList.addEventListener('click', function(event){
-  if (event.target.classList.contains("fa-star")){
-    console.log("clicking on star")
-    event.target.classList.toggle("yellow-star")
-    let row = event.target.parentNode.parentNode
-    let image = row.children[0].children[0].src
-    console.log(image.innerHTML)
-    let label = row.children[1].innerHTML
-    let calories =row.children[2].innerHTML
-    let ingredients = row.children[3].innerHTML
-    let meal = row.children[4].innerHTML
-    let cuisine =row.children[5].innerHTML
-    let inputData = {
-      label, image, calories, ingredients, meal, cuisine
-    }
-    console.log(inputData)
-    fetch("addRecipe",{
-      "method": "POST",
-      "headers" : { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-       },
-      "body": JSON.stringify(inputData)
-    }).then(data =>{
-      console.log(data)
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
-  }
-})
+            //--====================.Recipe Save Event===========================--//
+            //--====================.Recipe Save Event===========================--//
+            //--====================.Recipe Save Event===========================--//
+let activateStars = function(){
 
-recipeList.addEventListener('click', function(event){
-  if (event.target.classList.contains("fa-ban")){
-    // const id = this.event.target.parentNode.parentNode
-    const id = 
-    console.log("clicking on ban")
-    fetch('removeRecipe', {
-      method: 'delete',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-       "id": id,
+  document.getElementById("Menu").addEventListener('click', function (event){
+    let star = event.target
+    if (star.classList.contains("fa-star")){
+      star.classList.toggle("green-star")
+      let attributes = star.dataset
+      let label = attributes.label
+      let image = attributes.image
+      let url = attributes.url
+      let ingredients = attributes.ingredients
+      let calories = attributes.calories
+      let meal = attributes.mealType
+      let cuisine = attributes.cuisineType
+      let dish = attributes.dishType
+      let order = +attributes.order
+      let nutrients = menuData[order]
+      let inputData = {
+        label,
+        image,
+        calories,
+        ingredients,
+        meal,
+        cuisine,
+        url,
+        dish,
+        nutrients
+      }
+      console.log(inputData)
+      
+        //--====================.Saving Input Data===========================--//
+        //--====================.Saving Input Data===========================--//
+        //--====================.Saving Input Data===========================--//
+      fetch("addRecipe",{
+        "method": "POST",
+        "headers" : {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+         },
+        "body": JSON.stringify(inputData)
+      }).then(data =>{
+        console.log(data)
       })
-    }).then(function (response) {
-      window.location.reload()
-    })
-  };
-});
-
-function sendEmail(){
-  let ingredients
-window.open(`mailto:${req.user.local.email}?subject=TreatYourSelfRecipe-${ingredients}`)
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    }
+  })
 }
 
+  //--====================.Add Recipe To Menu===========================--//
+  //--====================.Add Recipe To Menu===========================--//
+  //--====================.Add Recipe To Menu===========================--//
+
+function addToMenu (recipe,index){
+let currentRecipe = recipe.recipe
+let menu = document.getElementById("Menu")
+
+            //--====================.Mobile Recipe Templates===========================--//
+            //--====================.Mobile Recipe Templates===========================--//
+            //--====================.Mobile Recipe Templates===========================--//
+
+let iterateStep=3
+if(window.innerWidth<639){
+  iterateStep=1
+} else if(639<=window.innerWidth && window.innerWidth<=1023){
+  iterateStep=2
+}
+if(Math.floor(index/iterateStep) % 2){
+menu.innerHTML += `
+<div class="special">
+    <div class="special-img img-0${index+1}">
+        <a href=${currentRecipe.url} target="_blank"><img src= "${currentRecipe.image}"></a>
+    </div>
+    <div class="special-items spec-0${index+1}">
+        <h2 class="scroll-reveal" data-origin="top" data-distance="20%">${currentRecipe.label}
+        <br>
+        <i class = "fa fa-star"
+         data-label="${validString(currentRecipe.label)}"
+         data-image=${currentRecipe.image}
+         data-url=${currentRecipe.url}
+         data-calories=${Number.parseInt(currentRecipe.calories)}
+         data-cuisine-type=${currentRecipe.cuisineType}
+         data-dish-type=${currentRecipe.dishType}
+         data-meal-type=${currentRecipe.mealType}
+         data-ingredients="${validString(currentRecipe.ingredientLines.join(". "))}"
+         data-order=${index} >
+         </i>
+         </h2>
+        <span class="line scroll-reveal" data-origin="top" data-distance="20%"></span>
+        <p class="scroll-reveal" data-origin="bottom" data-distance="30%">${currentRecipe.cuisineType} ${currentRecipe.dishType}, ${currentRecipe.mealType}</p>
+        <span class="scroll-reveal" data-origin="bottom" data-distance="60%">${Number.parseInt(currentRecipe.calories)} calories </span>
+    </div>
+</div>
+`
+}else{
+  menu.innerHTML += `
+  <div class="special">
+      <div class="special-items spec-0${index+1}">
+          <h2 class="scroll-reveal" data-origin="top" data-distance="20%">${currentRecipe.label}
+          <br>
+          <i class = "fa fa-star"
+           data-label="${validString(currentRecipe.label)}"
+           data-image=${currentRecipe.image}
+           data-url=${currentRecipe.url}
+           data-calories=${Number.parseInt(currentRecipe.calories)}
+           data-cuisine-type=${currentRecipe.cuisineType}
+           data-dish-type=${currentRecipe.dishType}
+           data-meal-type=${currentRecipe.mealType}
+           data-ingredients="${validString(currentRecipe.ingredientLines.join(". "))}"
+           data-order=${index} >
+           </i>
+           </h2>
+          <span class="line scroll-reveal" data-origin="top" data-distance="20%"></span>
+          <p class="scroll-reveal" data-origin="bottom" data-distance="30%">${currentRecipe.cuisineType} ${currentRecipe.dishType}, ${currentRecipe.mealType}</p>
+          <span class="scroll-reveal" data-origin="bottom" data-distance="60%">${Number.parseInt(currentRecipe.calories)} calories </span>
+      </div>
+      <div class="special-img img-0${index+1}">
+          <a href=${currentRecipe.url} target="_blank"><img src= "${currentRecipe.image}"></a>
+      </div>
+  </div>
+  `
+}
+}
+
+            //--====================.Close Menu===========================--//
+            //--====================.Close Menu===========================--//
+            //--====================.Close Menu===========================--//
+function clearTemplate(){
+  document.getElementById("Menu").innerHTML = ""
+
+            //--====================.Return Valid String===========================--//
+            //--====================.Return Valid String===========================--//
+            //--====================.Return Valid String===========================--//
+function validString(string){
+  return string.replace(/"/gi,"'")
+}
+
+            //--====================.Search For Recipe Nutrients============================--//
+            //--====================.Search For Recipe Nutrients===========================--//
+            //--====================.Search For Recipe Nutrients===========================--//
+recipeSearchs.addEventListener("click",function(){
+    var search = searchInput.value
+    searchInput.value=""
+    const url = `https://api.edamam.com/search?q=${search}&ingr=12&time=30&app_id=1e77532d&app_key=f85d1a2472b0f4835ada53850740ab5f`
+    clearTemplate()
+    activateStars()
+
+  fetch(url).then(res => res.json()).then(data => {
+    console.log("fetching data")
+    console.log(data);
+    menuData = data.hits.map(menu=>{
+      return {
+        "totalNutrients":  menu.recipe.totalNutrients,
+        "totalDaily": menu.recipe.totalDaily,
+      }
+
+      })
+      console.log(menuData)
+
+    data.hits.forEach((recipe,index) => addToMenu(recipe,index));
+  })
+
+})
