@@ -1,4 +1,4 @@
-An app based around health and ways to access a healtheir life style.
+An app based around health and ways to access a healthier life style.
 ## Installation
 
 1. Clone repo
@@ -12,5 +12,3 @@ An app based around health and ways to access a healtheir life style.
 ## Credit
 
 Modified from Scotch.io's auth tutorial
-  
- --added new code
