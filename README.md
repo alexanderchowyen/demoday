@@ -1,4 +1,4 @@
-An app based around health and ways to access a healthier life style.
+Full Stack application to search recipes and find nearby farmers markets
 ## Installation
 
 1. Clone repo
